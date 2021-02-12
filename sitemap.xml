@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://qizhidao.top/2021/02/12/Kong%E7%BD%91%E5%85%B3-%E6%B0%B8%E4%B9%85%E4%BF%AE%E6%94%B9%E9%BB%98%E8%AE%A4%E8%B6%85%E6%97%B6%E6%97%B6%E9%97%B4/</loc>
+    
+    <lastmod>2021-02-12</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://qizhidao.top/2021/02/03/ARM64%E6%9E%B6%E6%9E%84%20%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85kubernetes%E9%9B%86%E7%BE%A4/</loc>
+    
+    <lastmod>2021-02-12</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://qizhidao.top/2021/02/03/ARM64%E6%9E%B6%E6%9E%84%E4%B8%8Bansible%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85/</loc>
+    
+    <lastmod>2021-02-12</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://qizhidao.top/2021/02/12/Kubernetes%E7%8E%AF%E5%A2%83-SpringBoot-Admin-Nacos%E6%95%B4%E5%90%88%E9%9B%86%E6%88%90/</loc>
     
     <lastmod>2021-02-11</lastmod>
@@ -44,20 +65,6 @@
   </url>
   
   <url>
-    <loc>https://qizhidao.top/2021/02/03/ARM64%E6%9E%B6%E6%9E%84%E4%B8%8Bansible%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85/</loc>
-    
-    <lastmod>2021-02-10</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://qizhidao.top/2021/02/03/ARM64%E6%9E%B6%E6%9E%84%20%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85kubernetes%E9%9B%86%E7%BE%A4/</loc>
-    
-    <lastmod>2021-02-10</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://qizhidao.top/2021/02/01/%E8%8B%8F%E8%BD%BC%E8%AF%8D%E9%80%89/</loc>
     
     <lastmod>2021-02-10</lastmod>
@@ -74,71 +81,92 @@
 
   <url>
     <loc>https://qizhidao.top/</loc>
-    <lastmod>2021-02-11</lastmod>
+    <lastmod>2021-02-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
   
   <url>
-    <loc>https://qizhidao.top/tags/k8s%E5%AE%89%E8%A3%85/</loc>
-    <lastmod>2021-02-11</lastmod>
+    <loc>https://qizhidao.top/tags/k8s%E9%83%A8%E7%BD%B2/</loc>
+    <lastmod>2021-02-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://qizhidao.top/tags/ARM64/</loc>
-    <lastmod>2021-02-11</lastmod>
+    <lastmod>2021-02-12</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://qizhidao.top/tags/ansible/</loc>
+    <lastmod>2021-02-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://qizhidao.top/tags/%E6%9D%8E%E6%B8%85%E7%85%A7/</loc>
-    <lastmod>2021-02-11</lastmod>
+    <lastmod>2021-02-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://qizhidao.top/tags/%E5%AE%8B%E8%AF%8D/</loc>
-    <lastmod>2021-02-11</lastmod>
+    <lastmod>2021-02-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://qizhidao.top/tags/poem/</loc>
-    <lastmod>2021-02-11</lastmod>
+    <lastmod>2021-02-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://qizhidao.top/tags/ARM%E6%9E%B6%E6%9E%84/</loc>
-    <lastmod>2021-02-11</lastmod>
+    <lastmod>2021-02-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://qizhidao.top/tags/harbor/</loc>
-    <lastmod>2021-02-11</lastmod>
+    <lastmod>2021-02-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://qizhidao.top/tags/nacos/</loc>
-    <lastmod>2021-02-11</lastmod>
+    <lastmod>2021-02-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://qizhidao.top/tags/springboot/</loc>
-    <lastmod>2021-02-11</lastmod>
+    <lastmod>2021-02-12</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://qizhidao.top/tags/kong%E7%BD%91%E5%85%B3/</loc>
+    <lastmod>2021-02-12</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://qizhidao.top/tags/timeout%E4%BF%AE%E6%94%B9/</loc>
+    <lastmod>2021-02-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -146,29 +174,29 @@
 
   
   <url>
-    <loc>https://qizhidao.top/categories/k8s%E5%AE%89%E8%A3%85/</loc>
-    <lastmod>2021-02-11</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://qizhidao.top/categories/%E9%9B%85%E4%BF%97%E5%85%B1%E8%B5%8F/</loc>
-    <lastmod>2021-02-11</lastmod>
+    <loc>https://qizhidao.top/categories/kubernetes%E7%9B%B8%E5%85%B3%E6%8A%80%E6%9C%AF/</loc>
+    <lastmod>2021-02-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://qizhidao.top/categories/%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/</loc>
-    <lastmod>2021-02-11</lastmod>
+    <lastmod>2021-02-12</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://qizhidao.top/categories/%E9%9B%85%E4%BF%97%E5%85%B1%E8%B5%8F/</loc>
+    <lastmod>2021-02-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://qizhidao.top/categories/Spring-Cloud%E7%9B%B8%E5%85%B3%E6%8A%80%E6%9C%AF/</loc>
-    <lastmod>2021-02-11</lastmod>
+    <lastmod>2021-02-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
