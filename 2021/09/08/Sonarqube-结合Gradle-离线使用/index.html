@@ -1,0 +1,272 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Sonarqube 结合Gradle 离线使用 | 七支刀的次元空间</title><meta name="keywords" content="SonarQube,IDEA 离线,Gradle"><meta name="author" content="七支刀"><meta name="copyright" content="七支刀"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="SonarQube 结合Gradle 离线使用 使用场景：内网离线场景下，代码检测工具Sonarqube 7.7使用，本文介绍两种使用方式：1、Gradle上传检测；2、Idea插件检测。  关键技术栈：  Sonarqube  Gradle IDEA 2020.1.1  SonarQube登录工具版本： SonarQube 7.7  备注：已安装针对7.7版本的汉化插件sonar-l10n-zh">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Sonarqube 结合Gradle 离线使用">
+<meta property="og:url" content="https://qizhidao.top/2021/09/08/Sonarqube-%E7%BB%93%E5%90%88Gradle-%E7%A6%BB%E7%BA%BF%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="七支刀的次元空间">
+<meta property="og:description" content="SonarQube 结合Gradle 离线使用 使用场景：内网离线场景下，代码检测工具Sonarqube 7.7使用，本文介绍两种使用方式：1、Gradle上传检测；2、Idea插件检测。  关键技术栈：  Sonarqube  Gradle IDEA 2020.1.1  SonarQube登录工具版本： SonarQube 7.7  备注：已安装针对7.7版本的汉化插件sonar-l10n-zh">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/qizhidao7/picgo_cdn/post_img/202109/130.jpg">
+<meta property="article:published_time" content="2021-09-08T01:05:48.000Z">
+<meta property="article:modified_time" content="2021-09-08T02:29:50.951Z">
+<meta property="article:author" content="七支刀">
+<meta property="article:tag" content="SonarQube">
+<meta property="article:tag" content="Gradle">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/qizhidao7/picgo_cdn/post_img/202109/130.jpg"><link rel="shortcut icon" href="/img/suolong.png"><link rel="canonical" href="https://qizhidao.top/2021/09/08/Sonarqube-%E7%BB%93%E5%90%88Gradle-%E7%A6%BB%E7%BA%BF%E4%BD%BF%E7%94%A8/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-09-08 10:29:50'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" data-lazy-src="https://cdn.jsdelivr.net/gh/qizhidao7/picgo_cdn/post_img/202102/huang-circle.jpg" onerror="onerror=null;src='https://cdn.jsdelivr.net/gh/qizhidao7/picgo_cdn/theme_pic/22.jpg'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">12</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">21</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/guestbook/"><i class="fa-fw fas fa-archive"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/qizhidao7/picgo_cdn/post_img/202109/130.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">七支刀的次元空间</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/guestbook/"><i class="fa-fw fas fa-archive"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Sonarqube 结合Gradle 离线使用</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-09-08T01:05:48.000Z" title="发表于 2021-09-08 09:05:48">2021-09-08</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-09-08T02:29:50.951Z" title="更新于 2021-09-08 10:29:50">2021-09-08</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/">代码审计</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">583</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>2分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/2021/09/08/Sonarqube-%E7%BB%93%E5%90%88Gradle-%E7%A6%BB%E7%BA%BF%E4%BD%BF%E7%94%A8/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/2021/09/08/Sonarqube-%E7%BB%93%E5%90%88Gradle-%E7%A6%BB%E7%BA%BF%E4%BD%BF%E7%94%A8/" itemprop="commentCount"></span></a></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="SonarQube-结合Gradle-离线使用"><a href="#SonarQube-结合Gradle-离线使用" class="headerlink" title="SonarQube 结合Gradle 离线使用"></a>SonarQube 结合Gradle 离线使用</h1><blockquote>
+<p>使用场景：内网离线场景下，代码检测工具Sonarqube 7.7使用，本文介绍两种使用方式：1、Gradle上传检测；2、Idea插件检测。</p>
+</blockquote>
+<p>关键技术栈：</p>
+<ul>
+<li>Sonarqube </li>
+<li>Gradle</li>
+<li>IDEA 2020.1.1</li>
+</ul>
+<h2 id="SonarQube登录"><a href="#SonarQube登录" class="headerlink" title="SonarQube登录"></a>SonarQube登录</h2><p>工具版本： SonarQube 7.7 </p>
+<p>备注：已安装针对7.7版本的汉化插件sonar-l10n-zh-plugin-1.27.jar</p>
+<p>汉化插件下载地址：<code>https://github.com/xuhuisheng/sonar-l10n-zh/releases</code></p>
+<p>代码检测工具部署完成后Web UI 如下所示：</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://cdn.jsdelivr.net/gh/qizhidao7/picgo_cdn/post_img/202109/Sonarqube-main-web.png" alt="1617261966797"></p>
+<h2 id="IDEA-插件模式使用"><a href="#IDEA-插件模式使用" class="headerlink" title="IDEA 插件模式使用"></a>IDEA 插件模式使用</h2><p>IDEA 版本：2020.1.1</p>
+<p>插件：sonarlint-intellij-4.13.0.24781.zip</p>
+<p>下载地址：<code>https://plugins.jetbrains.com/</code> 主页搜索<code>SonarLint</code>，下载对应IDEA版本的插件版本即可</p>
+<h3 id="插件配置"><a href="#插件配置" class="headerlink" title="插件配置"></a>插件配置</h3><p>打开IDEA setting——Tools——SonarLint下配置，按下图所示</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://cdn.jsdelivr.net/gh/qizhidao7/picgo_cdn/post_img/202109/IDEA-sonarqube-plugins-1.png" alt="1617262666834"></p>
+<p>然后选择Project Settings，设置选择连接，填写工程名（项目根路径名称，一般和项目同名）</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://cdn.jsdelivr.net/gh/qizhidao7/picgo_cdn/post_img/202109/IDEA-sonarqube-plugins-2.png" alt="1617262887768"></p>
+<h3 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h3><p>插件设置完成后，可以在IDEA最下方看到SonarLint工具栏，其中：</p>
+<ol>
+<li><p>Current file会显示当前打开的代码类的检测。</p>
+</li>
+<li><p>Report是分析的报告，可以自定义分析（选中对应类或模块，鼠标邮件选择SonarLint分析）</p>
+</li>
+</ol>
+<p><img src= "/img/loading.gif" data-lazy-src="https://cdn.jsdelivr.net/gh/qizhidao7/picgo_cdn/post_img/202109/IDEA-sonarqube-plugins-use-1.png" alt="1617263303733"></p>
+<h2 id="Gradle结合Web-UI报告使用"><a href="#Gradle结合Web-UI报告使用" class="headerlink" title="Gradle结合Web UI报告使用"></a>Gradle结合Web UI报告使用</h2><p>这里是另外一种使用方式，可以和上文提及的插件方式一起使用。支持完全离线使用（不依赖互联网）。</p>
+<p>这里主要是Gradle的配置</p>
+<h3 id="Gradle-插件依赖"><a href="#Gradle-插件依赖" class="headerlink" title="Gradle 插件依赖"></a>Gradle 插件依赖</h3><p>首先下载<code>Gradle</code>插件依赖jar包，根据<code>sonarqube</code>的版本来选择，本文<code>sonarqube 7.7</code>版本使用的配置如下：</p>
+<p><strong>注意： <code>sonarqube-gradle-plugin</code>是主要插件，但是其本身依赖<code>sonar-scanner-api</code>插件，离线使用必须同时引进</strong></p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">buildscript &#123;</span><br><span class="line">    </span><br><span class="line">    repositories &#123;</span><br><span class="line">        maven &#123; url <span class="string">&#x27;http://qizhidao.top/&#x27;</span> &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    dependencies &#123;</span><br><span class="line">        classpath <span class="string">&#x27;org.sonarsource.scanner.gradle:sonar-scanner-api:2.12.0.1661&#x27;</span></span><br><span class="line">        classpath(<span class="string">&quot;org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.7&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">allprojects &#123;</span><br><span class="line">    apply <span class="attr">plugin:</span> <span class="string">&#x27;org.sonarqube&#x27;</span></span><br><span class="line">    </span><br><span class="line">    sonarqube &#123;</span><br><span class="line">        properties &#123;</span><br><span class="line">            property <span class="string">&quot;sonar.sourceEncoding&quot;</span>,<span class="string">&quot;UTF-8&quot;</span></span><br><span class="line">            property <span class="string">&quot;sonar.host.url&quot;</span>,<span class="string">&quot;http://10.4.29.91:29000&quot;</span></span><br><span class="line">            property <span class="string">&quot;sonar.login&quot;</span>,<span class="string">&quot;admin&quot;</span></span><br><span class="line">            property <span class="string">&quot;sonar.password&quot;</span>,<span class="string">&quot;admin&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="运行分析代码，上传SonarQube服务端"><a href="#运行分析代码，上传SonarQube服务端" class="headerlink" title="运行分析代码，上传SonarQube服务端"></a>运行分析代码，上传SonarQube服务端</h3><p>然后在build.gradle文件内使用run，或者右侧任务选择sonarlint即可上传全部代码至SonarQube服务端</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://cdn.jsdelivr.net/gh/qizhidao7/picgo_cdn/post_img/202109/IDEA-sonarqube-plugins-use-2.png" alt="1617264582758"></p>
+<p>打开页面即可看到刚刚上传的分析代码</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://cdn.jsdelivr.net/gh/qizhidao7/picgo_cdn/post_img/202109/Sonarqube-main-web-2.png" alt="1617264753247"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">七支刀</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://qizhidao.top/">https://qizhidao.top/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://qizhidao.top" target="_blank">七支刀的次元空间</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/SonarQube/">SonarQube</a><a class="post-meta__tags" href="/tags/Gradle/">Gradle</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/qizhidao7/picgo_cdn/post_img/202109/130.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2021/03/07/Kong%E7%BD%91%E5%85%B3%E6%95%B4%E5%90%88spring-cloud%E5%BE%AE%E6%9C%8D%E5%8A%A1oauth2/"><img class="next-cover" data-lazy-src="https://cdn.jsdelivr.net/gh/qizhidao7/picgo_cdn/post_img/202103/63.jpg" onerror="onerror=null;src='/img/suolong.png'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Kong网关整合spring cloud微服务oauth2</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div><div id="comment-switch"><span class="first-comment">Valine</span><span class="switch-btn"></span><span class="second-comment">Gitalk</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" data-lazy-src="https://cdn.jsdelivr.net/gh/qizhidao7/picgo_cdn/post_img/202102/huang-circle.jpg" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/qizhidao7/picgo_cdn/theme_pic/22.jpg'" alt="avatar"/><div class="author-info__name">七支刀</div><div class="author-info__description">个人博客，所见所闻</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">12</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">21</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/qizhidao7/qizhidao7.github.io"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/qizhidao7/qizhidao7.github.io" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:zwhgzyj@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">胸有惊雷而面如平湖者，可拜上将军 —— Gol.D.Roger</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SonarQube-%E7%BB%93%E5%90%88Gradle-%E7%A6%BB%E7%BA%BF%E4%BD%BF%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">SonarQube 结合Gradle 离线使用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#SonarQube%E7%99%BB%E5%BD%95"><span class="toc-number">1.1.</span> <span class="toc-text">SonarQube登录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IDEA-%E6%8F%92%E4%BB%B6%E6%A8%A1%E5%BC%8F%E4%BD%BF%E7%94%A8"><span class="toc-number">1.2.</span> <span class="toc-text">IDEA 插件模式使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6%E9%85%8D%E7%BD%AE"><span class="toc-number">1.2.1.</span> <span class="toc-text">插件配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90"><span class="toc-number">1.2.2.</span> <span class="toc-text">代码分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Gradle%E7%BB%93%E5%90%88Web-UI%E6%8A%A5%E5%91%8A%E4%BD%BF%E7%94%A8"><span class="toc-number">1.3.</span> <span class="toc-text">Gradle结合Web UI报告使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Gradle-%E6%8F%92%E4%BB%B6%E4%BE%9D%E8%B5%96"><span class="toc-number">1.3.1.</span> <span class="toc-text">Gradle 插件依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E5%88%86%E6%9E%90%E4%BB%A3%E7%A0%81%EF%BC%8C%E4%B8%8A%E4%BC%A0SonarQube%E6%9C%8D%E5%8A%A1%E7%AB%AF"><span class="toc-number">1.3.2.</span> <span class="toc-text">运行分析代码，上传SonarQube服务端</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/09/08/Sonarqube-%E7%BB%93%E5%90%88Gradle-%E7%A6%BB%E7%BA%BF%E4%BD%BF%E7%94%A8/" title="Sonarqube 结合Gradle 离线使用"><img data-lazy-src="https://cdn.jsdelivr.net/gh/qizhidao7/picgo_cdn/post_img/202109/130.jpg" onerror="this.onerror=null;this.src='/img/suolong.png'" alt="Sonarqube 结合Gradle 离线使用"/></a><div class="content"><a class="title" href="/2021/09/08/Sonarqube-%E7%BB%93%E5%90%88Gradle-%E7%A6%BB%E7%BA%BF%E4%BD%BF%E7%94%A8/" title="Sonarqube 结合Gradle 离线使用">Sonarqube 结合Gradle 离线使用</a><time datetime="2021-09-08T01:05:48.000Z" title="发表于 2021-09-08 09:05:48">2021-09-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/03/07/Kong%E7%BD%91%E5%85%B3%E6%95%B4%E5%90%88spring-cloud%E5%BE%AE%E6%9C%8D%E5%8A%A1oauth2/" title="Kong网关整合spring cloud微服务oauth2"><img data-lazy-src="https://cdn.jsdelivr.net/gh/qizhidao7/picgo_cdn/post_img/202103/63.jpg" onerror="this.onerror=null;this.src='/img/suolong.png'" alt="Kong网关整合spring cloud微服务oauth2"/></a><div class="content"><a class="title" href="/2021/03/07/Kong%E7%BD%91%E5%85%B3%E6%95%B4%E5%90%88spring-cloud%E5%BE%AE%E6%9C%8D%E5%8A%A1oauth2/" title="Kong网关整合spring cloud微服务oauth2">Kong网关整合spring cloud微服务oauth2</a><time datetime="2021-03-06T17:46:39.000Z" title="发表于 2021-03-07 01:46:39">2021-03-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/02/14/Harbor-v2-%E9%95%9C%E5%83%8F%E6%89%B9%E9%87%8F%E5%AF%BC%E5%87%BA%E8%84%9A%E6%9C%AC%E5%8F%8A%E7%9B%B8%E5%85%B3API/" title="Harbor v2 镜像批量导出脚本及相关API"><img data-lazy-src="https://cdn.jsdelivr.net/gh/qizhidao7/picgo_cdn/post_img/202102/jp2021-02-14.jpg" onerror="this.onerror=null;this.src='/img/suolong.png'" alt="Harbor v2 镜像批量导出脚本及相关API"/></a><div class="content"><a class="title" href="/2021/02/14/Harbor-v2-%E9%95%9C%E5%83%8F%E6%89%B9%E9%87%8F%E5%AF%BC%E5%87%BA%E8%84%9A%E6%9C%AC%E5%8F%8A%E7%9B%B8%E5%85%B3API/" title="Harbor v2 镜像批量导出脚本及相关API">Harbor v2 镜像批量导出脚本及相关API</a><time datetime="2021-02-14T14:23:40.000Z" title="发表于 2021-02-14 22:23:40">2021-02-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/02/14/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E8%AE%B0%E5%BD%95/" title="个人博客搭建记录 Github Pages+Hexo+Gitalk"><img data-lazy-src="https://cdn.jsdelivr.net/gh/qizhidao7/picgo_cdn/post_img/202102/23.jpg" onerror="this.onerror=null;this.src='/img/suolong.png'" alt="个人博客搭建记录 Github Pages+Hexo+Gitalk"/></a><div class="content"><a class="title" href="/2021/02/14/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E8%AE%B0%E5%BD%95/" title="个人博客搭建记录 Github Pages+Hexo+Gitalk">个人博客搭建记录 Github Pages+Hexo+Gitalk</a><time datetime="2021-02-13T17:52:49.000Z" title="发表于 2021-02-14 01:52:49">2021-02-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/02/12/Kong%E7%BD%91%E5%85%B3-%E6%B0%B8%E4%B9%85%E4%BF%AE%E6%94%B9%E9%BB%98%E8%AE%A4%E8%B6%85%E6%97%B6%E6%97%B6%E9%97%B4/" title="Kong网关 永久修改默认超时时间"><img data-lazy-src="https://cdn.jsdelivr.net/gh/qizhidao7/picgo_cdn/post_img/202102/acg-202101-piano.jpg" onerror="this.onerror=null;this.src='/img/suolong.png'" alt="Kong网关 永久修改默认超时时间"/></a><div class="content"><a class="title" href="/2021/02/12/Kong%E7%BD%91%E5%85%B3-%E6%B0%B8%E4%B9%85%E4%BF%AE%E6%94%B9%E9%BB%98%E8%AE%A4%E8%B6%85%E6%97%B6%E6%97%B6%E9%97%B4/" title="Kong网关 永久修改默认超时时间">Kong网关 永久修改默认超时时间</a><time datetime="2021-02-12T15:28:57.000Z" title="发表于 2021-02-12 23:28:57">2021-02-12</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://cdn.jsdelivr.net/gh/qizhidao7/picgo_cdn/post_img/202102/acg.gy_22.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2021 By 七支刀</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    let initData = {
+      el: '#vcomment',
+      appId: '3nQodlACvldBFF9zTONozT1h-gzGzoHsz',
+      appKey: '81M3PD9HjctxjQKPd8Yk1b6B',
+      placeholder: '大佬来顺手留个昵称和联系方式呗',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+    }
+
+    if (true) { 
+      initData.requiredFields= ('nick,mail'.split(','))
+    }
+    
+    if (false) {
+      const otherData = false
+      initData = Object.assign(initData, otherData)
+    }
+    
+    const valine = new Valine(initData)
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script><script>function addGitalkSource () {
+  const ele = document.createElement('link')
+  ele.rel = 'stylesheet'
+  ele.href= 'https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css'
+  document.getElementsByTagName('head')[0].appendChild(ele)
+}
+
+function loadGitalk () {
+  function initGitalk () {
+    var gitalk = new Gitalk({
+      clientID: 'af55a13e248c79a55024',
+      clientSecret: '4c62c409544353eac1dbe66019619723a048707e',
+      repo: 'qizhidao7.github.io',
+      owner: 'qizhidao7',
+      admin: ['qizhidao7'],
+      id: '9d60485fb61f579d3af652f4a0438e09',
+      language: 'zh-CN',
+      perPage: 10,
+      distractionFreeMode: false,
+      pagerDirection: 'last',
+      createIssueManually: false,
+      updateCountCallback: commentCount
+    })
+    gitalk.render('gitalk-container')
+  }
+
+  if (typeof Gitalk === 'function') initGitalk()
+  else {
+    addGitalkSource()
+    getScript('https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js').then(initGitalk)
+  }
+}
+
+function commentCount(n){
+  let isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+  if (isCommentCount) {
+    isCommentCount.innerHTML= n
+  }
+}
+
+if ('Valine' === 'Gitalk' || !false) {
+  if (false) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+  else loadGitalk()
+} else {
+  function loadOtherComment () {
+    loadGitalk()
+  }
+}</script></div><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
