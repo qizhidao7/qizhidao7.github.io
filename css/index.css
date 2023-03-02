@@ -1356,7 +1356,7 @@ input::placeholder {
   z-index: -999;
   width: 100%;
   height: 100%;
-  background: url(https://cdn.jsdelivr.net/gh/qizhidao7/picgo_cdn/theme_pic/61.jpg);
+  background: url(./img/61.jpg);
   background-attachment: local;
   background-position: center;
   -webkit-background-size: cover;
